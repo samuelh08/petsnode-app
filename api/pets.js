@@ -1,7 +1,7 @@
-import axios from 'axios';
+import http from './http';
 
-export async function getPets(url = `${process.env.REACT_APP_API_URL}/pets`) {
-  return await axios.get(url).then((response) => {
+export async function getPets(url = '/pets') {
+  return await http.get(url).then((response) => {
     const { data: json } = response;
 
     return {
