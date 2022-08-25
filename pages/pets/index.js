@@ -13,8 +13,8 @@ import useSWR from 'swr';
 
 import { getPets } from '../../api/pets';
 
-export default function Home() {
-  const { data, error } = useSWR('http://localhost:3000/api/v1/pets', getPets);
+export default function Pets() {
+  const { data, error } = useSWR('/pets', getPets);
 
   if (!data) {
     return <CircularProgress color="inherit" />;

@@ -11,7 +11,7 @@ export default function Pet({ data }) {
 
 export async function getServerSideProps({ params }) {
   const pet = await fetch(
-    `${process.env.REACT_APP_API_URL}/pets/${params.petId}`,
+    `${process.env.NEXT_PUBLIC_REACT_APP_API_URL}/pets/${params.petId}`,
     {
       method: 'GET',
     },
