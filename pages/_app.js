@@ -5,12 +5,15 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import Bar from '../components/Bar';
+import { UserProvider } from '../context/user';
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <Bar />
-      <Component {...pageProps} />
+      <UserProvider>
+        <Bar />
+        <Component {...pageProps} />
+      </UserProvider>
     </>
   );
 }
