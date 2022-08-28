@@ -10,3 +10,13 @@ export async function getPets(url = '/pets') {
     };
   });
 }
+
+export async function createPet(url = '/pets', payload) {
+  return await http.post(url, payload).then((response) => {
+    const { data: json } = response;
+
+    return {
+      data: json.data,
+    };
+  });
+}

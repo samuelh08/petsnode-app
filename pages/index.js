@@ -22,7 +22,7 @@ export default function Home() {
         </Grid>
         <Grid item>
           <Card>
-            <CardActionArea href="/rehome">
+            <CardActionArea href="/createPet">
               <CardMedia
                 style={{ height: '500px' }}
                 component="img"

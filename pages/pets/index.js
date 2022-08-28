@@ -33,7 +33,11 @@ export default function Pets() {
           {data?.data.map((item) => (
             <Grid item key={item._id}>
               <Card key={item._id}>
-                <CardMedia component="img" alt={item.name} />
+                <CardMedia
+                  component="img"
+                  image={item.picture}
+                  alt={item.name}
+                />
                 <CardContent>
                   <Typography variant="h5">{item.name}</Typography>
                   <Typography>{item.description}</Typography>
