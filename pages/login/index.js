@@ -28,7 +28,7 @@ export default function Login() {
         email: email.value,
         password: password.value,
       });
-      context.setUser(json);
+      context.setUser(json.data);
       router.push('/');
     } catch (error) {
       setError(error);

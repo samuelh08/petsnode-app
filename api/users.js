@@ -1,6 +1,6 @@
 import http from './http';
 
-export function logIn({ email, password }) {
+export async function logIn({ email, password }) {
   return http.post('/users/login', { email, password }).then((response) => {
     const { data: json } = response;
 

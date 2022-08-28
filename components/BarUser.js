@@ -5,9 +5,9 @@ import UserContext from '../context/user';
 
 export default function BarUser() {
   const context = useContext(UserContext);
-  return context?.user?.data ? (
+  return context?.user ? (
     <>
-      <Typography>{context.user.data.name}</Typography>
+      <Typography>{context.user.name}</Typography>
       <Button flexGrow={1} color="inherit" href="/logout">
         Logout
       </Button>
