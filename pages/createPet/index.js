@@ -191,7 +191,7 @@ export default function CreatePet() {
         <Grid item>
           <FormControlLabel
             control={<Checkbox name="sterilized" />}
-            label="Sterilized"
+            label="Spayed / Neutered"
           />
         </Grid>
         <Grid item>
