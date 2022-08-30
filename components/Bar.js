@@ -5,7 +5,7 @@ import BarUser from './BarUser';
 
 export default function appBar() {
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" color="secondary">
       <Container>
         <Toolbar>
           <Box display="flex" flexGrow={1}>

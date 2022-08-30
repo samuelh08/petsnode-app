@@ -14,6 +14,9 @@ export default function BarUser() {
     </>
   ) : (
     <>
+      <Button flexGrow={1} color="inherit" href="/signup">
+        Sign up
+      </Button>
       <Button flexGrow={1} color="inherit" href="/login">
         Login
       </Button>

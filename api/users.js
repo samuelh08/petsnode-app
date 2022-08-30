@@ -15,3 +15,19 @@ export async function logIn({ email, password }) {
     };
   });
 }
+
+export async function Signup(payload) {
+  return http.post('/users/signup', payload).then((response) => {
+    const { data: json } = response;
+
+    if (json.meta?.token) {
+      localStorage.setItem('token', json.meta.token);
+    }
+
+    const user = json.data;
+
+    return {
+      data: user,
+    };
+  });
+}
