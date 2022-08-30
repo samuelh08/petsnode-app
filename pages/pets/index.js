@@ -8,13 +8,17 @@ import {
   CircularProgress,
   FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   Tab,
   Tabs,
   Typography,
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import Head from 'next/head';
 import { useState } from 'react';
 import useSWR from 'swr';
@@ -23,11 +27,13 @@ import { getPets } from '../../api/pets';
 
 export default function Pets() {
   const [animal, setAnimal] = useState('Dog');
+  const [nameValue, setNameValue] = useState('');
+  const [name, setName] = useState('');
   const [size, setSize] = useState('');
   const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
   const { data, error } = useSWR(
-    `/pets?status=Available&animal=${animal}&size=${size}&age=${age}&sex=${sex}`,
+    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}`,
     getPets,
   );
 
@@ -43,6 +49,13 @@ export default function Pets() {
   };
   const handleChangeAge = (event) => {
     setAge(event.target.value);
+  };
+  const handleChangeName = (event) => {
+    setNameValue(event.target.value);
+  };
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setName(nameValue);
   };
   const handleChangeSize = (event) => {
     setSize(event.target.value);
@@ -83,9 +96,32 @@ export default function Pets() {
           <Grid item xs={4}>
             <Grid container direction="column" spacing={3} margin="10px">
               <Grid item>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
+                  <OutlinedInput
+                    value={nameValue}
+                    id="name"
+                    onChange={handleChangeName}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="search"
+                          onClick={handleSearch}
+                          onMouseDown={handleSearch}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Pet's name"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item>
                 <FormControl fullWidth>
                   <InputLabel htmlFor="size">Size</InputLabel>
                   <Select
+                    value={size}
                     name="size"
                     id="size"
                     label="size"
@@ -110,6 +146,7 @@ export default function Pets() {
                 <FormControl fullWidth>
                   <InputLabel htmlFor="sex">Sex</InputLabel>
                   <Select
+                    value={sex}
                     name="sex"
                     id="sex"
                     label="sex"
@@ -127,6 +164,7 @@ export default function Pets() {
                 <FormControl fullWidth>
                   <InputLabel htmlFor="age">Age</InputLabel>
                   <Select
+                    value={age}
                     name="age"
                     id="age"
                     label="age"
