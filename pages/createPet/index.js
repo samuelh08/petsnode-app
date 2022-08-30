@@ -12,10 +12,12 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 import { createPet } from '../../api/pets';
 import UserContext from '../../context/user';
 
 export default function CreatePet() {
+  const router = useRouter();
   const [formAnimal, setFormAnimal] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
