@@ -1,6 +1,6 @@
+import React, { useContext, useState } from 'react';
 import {
   Alert,
-  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -11,7 +11,7 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
 import { createPet } from '../../api/pets';
 import UserContext from '../../context/user';
@@ -220,9 +220,9 @@ export default function CreatePet() {
           </FormControl>
         </Grid>
         <Grid item>
-          <Button variant="contained" type="submit" loading={loading}>
+          <LoadingButton variant="contained" type="submit" loading={loading}>
             Create
-          </Button>
+          </LoadingButton>
         </Grid>
       </Grid>
     </>
