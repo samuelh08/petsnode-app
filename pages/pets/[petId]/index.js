@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   Alert,
   Box,
@@ -19,9 +20,11 @@ import { LoadingButton } from '@mui/lab';
 
 import UserContext from '../../../context/user';
 import { createApplication } from '../../../api/applications';
+import { deletePet } from '../../../api/pets';
 
 export default function Pet({ data }) {
   const { user } = useContext(UserContext);
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
@@ -38,6 +41,18 @@ export default function Pet({ data }) {
         { message: payload.message.value },
       );
       setOpen(false);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await deletePet(data._id);
+      router.push('/pets');
     } catch (error) {
       setError(error);
     } finally {
@@ -100,7 +115,13 @@ export default function Pet({ data }) {
               ) : (
                 <div>
                   <Button>Edit</Button>
-                  <Button color="error">Delete</Button>
+                  <LoadingButton
+                    color="error"
+                    loading={loading}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </LoadingButton>
                 </div>
               )}
             </CardActions>

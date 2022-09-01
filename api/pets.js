@@ -20,3 +20,13 @@ export async function createPet(url = '/pets', payload) {
     };
   });
 }
+
+export async function deletePet(id) {
+  return await http.delete(`pets/${id}`).then((response) => {
+    const { data: json } = response;
+
+    return {
+      data: json.data,
+    };
+  });
+}
