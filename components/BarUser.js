@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button, Grid, Link } from '@mui/material';
 import React, { useContext } from 'react';
 
 import UserContext from '../context/user';
@@ -6,20 +6,32 @@ import UserContext from '../context/user';
 export default function BarUser() {
   const context = useContext(UserContext);
   return context?.user ? (
-    <>
-      <Typography>{context.user.name}</Typography>
-      <Button flexGrow={1} color="inherit" href="/logout">
-        Logout
-      </Button>
-    </>
+    <Grid container justifyContent="end" alignItems="baseline">
+      <Grid item marginX={2}>
+        <Link href="/profile" color="inherit" underline="none">
+          {context.user.name}
+        </Link>
+      </Grid>
+      <Grid item>
+        <Button color="inherit" href="/logout">
+          Log out
+        </Button>
+      </Grid>
+    </Grid>
   ) : (
     <>
-      <Button flexGrow={1} color="inherit" href="/signup">
-        Sign up
-      </Button>
-      <Button flexGrow={1} color="inherit" href="/login">
-        Login
-      </Button>
+      <Grid container justifyContent="end" alignItems="baseline">
+        <Grid item marginX={2}>
+          <Button color="inherit" href="/signup">
+            Sign up
+          </Button>
+        </Grid>
+        <Grid item marginX={2}>
+          <Button color="inherit" href="/login">
+            Login
+          </Button>
+        </Grid>
+      </Grid>
     </>
   );
 }

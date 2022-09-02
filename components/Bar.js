@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Box, Container, Link, Toolbar } from '@mui/material';
+import { AppBar, Container, Grid, Link, Toolbar } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import BarUser from './BarUser';
 
@@ -8,12 +8,21 @@ export default function appBar() {
     <AppBar position="sticky" color="secondary">
       <Container>
         <Toolbar>
-          <Box display="flex" flexGrow={1}>
-            <PetsIcon />
-            <Link href="/" color="inherit" underline="none">
-              PetsNode
-            </Link>
-          </Box>
+          <Grid
+            container
+            justifyContent="start"
+            alignItems="center"
+            alignContent="center"
+          >
+            <Grid item marginRight={1}>
+              <PetsIcon />
+            </Grid>
+            <Grid item>
+              <Link href="/" color="inherit" underline="none">
+                PetsNode
+              </Link>
+            </Grid>
+          </Grid>
           <BarUser />
         </Toolbar>
       </Container>
