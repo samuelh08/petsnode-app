@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import useSWR from 'swr';
 import {
   Alert,
   Box,
@@ -20,8 +22,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Head from 'next/head';
-import { useState } from 'react';
-import useSWR from 'swr';
 
 import { getPets } from '../../api/pets';
 
