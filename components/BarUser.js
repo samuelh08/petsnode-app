@@ -21,12 +21,12 @@ export default function BarUser() {
   ) : (
     <>
       <Grid container justifyContent="end" alignItems="baseline">
-        <Grid item marginX={2}>
+        <Grid item marginX={1}>
           <Button color="inherit" href="/signup">
             Sign up
           </Button>
         </Grid>
-        <Grid item marginX={2}>
+        <Grid item marginX={1}>
           <Button color="inherit" href="/login">
             Login
           </Button>
