@@ -11,6 +11,16 @@ export async function getPets(url = '/pets') {
   });
 }
 
+export async function getPet(id) {
+  return await http.get(`/pets/${id}`).then((response) => {
+    const { data: json } = response;
+
+    return {
+      data: json.data,
+    };
+  });
+}
+
 export async function createPet(url = '/pets', payload) {
   return await http.post(url, payload).then((response) => {
     const { data: json } = response;
