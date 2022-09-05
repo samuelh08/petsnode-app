@@ -13,7 +13,10 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+import adopt from '../../public/adopt.jpg';
+import publish from '../../public/publish.jpg';
 import { Signup } from '../../api/users';
+import { Box } from '@mui/system';
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -52,92 +55,95 @@ export default function SignUp() {
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
-      <Typography variant="h2" margin="10px">
-        Signup
-      </Typography>
-      <Grid
-        container
-        component="form"
-        onSubmit={handleSubmit}
-        direction="column"
-        margin="10px"
-        spacing={3}
-        xs={6}
-      >
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="firstname">{'First name'}</InputLabel>
-            <Input id="firstname" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="lastname">{'Last name'}</InputLabel>
-            <Input id="lastname" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="email">{'Email'}</InputLabel>
-            <Input id="email" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="password">{'Password'}</InputLabel>
-            <Input type="password" id="password" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="phone">{'Phone number'}</InputLabel>
-            <Input id="phone" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="address">{'Address'}</InputLabel>
-            <Input id="address" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel id="documentType-label">Document type</InputLabel>
-            <Select
-              labelId="documentType-label"
-              name="documentType"
-              id="documentType"
-              label="Document type"
-              onChange={handleChange}
-            >
-              {documentTypes.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="document">{'Document number'}</InputLabel>
-            <Input
-              startAdornment={
-                <InputAdornment position="start">{type}</InputAdornment>
-              }
-              id="document"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <LoadingButton
-            variant="contained"
-            color="secondary"
-            type="submit"
-            loading={loading}
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography variant="h2" marginTop="20px" marginX="40px">
+            Signup
+          </Typography>
+          <Grid
+            container
+            component="form"
+            onSubmit={handleSubmit}
+            direction="column"
+            spacing={3}
+            margin="10px"
           >
-            Sign Up
-          </LoadingButton>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="firstname">{'First name'}</InputLabel>
+                <Input id="firstname" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="lastname">{'Last name'}</InputLabel>
+                <Input id="lastname" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="email">{'Email'}</InputLabel>
+                <Input id="email" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="password">{'Password'}</InputLabel>
+                <Input type="password" id="password" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="phone">{'Phone number'}</InputLabel>
+                <Input id="phone" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="address">{'Address'}</InputLabel>
+                <Input id="address" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel id="documentType-label">Document type</InputLabel>
+                <Select
+                  labelId="documentType-label"
+                  name="documentType"
+                  id="documentType"
+                  label="Document type"
+                  onChange={handleChange}
+                >
+                  {documentTypes.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="document">{'Document number'}</InputLabel>
+                <Input
+                  startAdornment={
+                    <InputAdornment position="start">{type}</InputAdornment>
+                  }
+                  id="document"
+                />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <LoadingButton
+                variant="contained"
+                color="secondary"
+                type="submit"
+                loading={loading}
+              >
+                Sign Up
+              </LoadingButton>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </>
