@@ -16,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 import adopt from '../../public/adopt.jpg';
 import publish from '../../public/publish.jpg';
 import { Signup } from '../../api/users';
-import { Box } from '@mui/system';
+import Image from 'next/image';
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             direction="column"
             spacing={3}
-            margin="10px"
+            padding="10px"
           >
             <Grid item>
               <FormControl fullWidth>
@@ -144,6 +144,9 @@ export default function SignUp() {
               </LoadingButton>
             </Grid>
           </Grid>
+        </Grid>
+        <Grid item xs={6} position="relative">
+          <Image src={adopt} alt="adopt" layout="fill" objectFit="cover" />
         </Grid>
       </Grid>
     </>
