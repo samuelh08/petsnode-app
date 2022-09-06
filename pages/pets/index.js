@@ -15,6 +15,7 @@ import {
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Pagination,
   Select,
   Tab,
   Tabs,
@@ -32,8 +33,10 @@ export default function Pets() {
   const [size, setSize] = useState('');
   const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
+  const [page, setPage] = useState(1);
+
   const { data, error } = useSWR(
-    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}`,
+    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}&page=${page}`,
     getPets,
   );
 
@@ -62,6 +65,9 @@ export default function Pets() {
   };
   const handleChangeSex = (event) => {
     setSex(event.target.value);
+  };
+  const handleChangePage = (event, value) => {
+    setPage(value);
   };
 
   if (!data) {
@@ -219,6 +225,14 @@ export default function Pets() {
                 </Card>
               ))}
             </Box>
+            <Grid item display="flex" justifyContent="center">
+              <Pagination
+                count={data.meta.pages}
+                color="secondary"
+                page={page}
+                onChange={handleChangePage}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </main>
