@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Alert,
-  Button,
   FormControl,
   Grid,
   Input,
@@ -10,6 +9,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import PetsIcon from '@mui/icons-material/Pets';
 
 import { logIn } from '../../api/users';
@@ -81,9 +81,13 @@ export default function Login() {
                 </FormControl>
               </Grid>
               <Grid item>
-                <Button variant="contained" type="submit" loading={loading}>
+                <LoadingButton
+                  variant="contained"
+                  type="submit"
+                  loading={loading}
+                >
                   Login
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </Grid>
