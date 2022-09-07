@@ -5,16 +5,21 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-  Input,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   Typography,
 } from '@mui/material';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { LoadingButton } from '@mui/lab';
 import { useRouter } from 'next/router';
+
+import publish from '../../public/publish.jpg';
 import { createPet } from '../../api/pets';
 import UserContext from '../../context/user';
+import Image from 'next/image';
 
 export default function CreatePet() {
   const router = useRouter();
@@ -81,148 +86,163 @@ export default function CreatePet() {
   return (
     <>
       {error && <Alert severity="error">{error}</Alert>}
-      <Typography variant="h2" margin="10px">
-        Rehome a pet
-      </Typography>
-      <Grid
-        container
-        component="form"
-        onSubmit={handleSubmit}
-        direction="column"
-        margin="10px"
-        spacing={3}
-        xs={6}
-      >
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
-            <Input id="name" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel id="animal-label">Animal</InputLabel>
-            <Select
-              labelId="animal-label"
-              name="animal"
-              id="animal"
-              label="Animal"
-              onChange={handleChangeAnimal}
-            >
-              {animals.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="breed">Breed</InputLabel>
-            <Input id="breed" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="sex">Sex</InputLabel>
-            <Select name="sex" id="sex" label="sex">
-              {sexes.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="age">Age</InputLabel>
-            <Select name="age" id="age" label="age">
-              {formAnimal === 'Dog' &&
-                dogAges.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              {formAnimal === 'Cat' &&
-                catAges.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-              {formAnimal === 'Other' &&
-                ages.map((option) => (
-                  <MenuItem key={option} value={option}>
-                    {option}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="size">Size</InputLabel>
-            <Select name="size" id="size" label="size">
-              {formAnimal === 'Dog'
-                ? dogSizes.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))
-                : sizes.map((option) => (
+      <Grid container>
+        <Grid item xs={6}>
+          <Typography variant="h2" margin="10px">
+            Rehome a pet
+          </Typography>
+          <Grid
+            container
+            component="form"
+            onSubmit={handleSubmit}
+            direction="column"
+            padding="10px"
+            spacing={3}
+          >
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
+                <OutlinedInput id="name" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel id="animal-label">Animal</InputLabel>
+                <Select
+                  labelId="animal-label"
+                  name="animal"
+                  id="animal"
+                  label="Animal"
+                  onChange={handleChangeAnimal}
+                >
+                  {animals.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
                   ))}
-            </Select>
-          </FormControl>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="breed">Breed</InputLabel>
+                <OutlinedInput id="breed" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="sex">Sex</InputLabel>
+                <Select name="sex" id="sex" label="sex">
+                  {sexes.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="age">Age</InputLabel>
+                <Select name="age" id="age" label="age">
+                  {formAnimal === 'Dog' &&
+                    dogAges.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  {formAnimal === 'Cat' &&
+                    catAges.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  {formAnimal === 'Other' &&
+                    ages.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="size">Size</InputLabel>
+                <Select name="size" id="size" label="size">
+                  {formAnimal === 'Dog'
+                    ? dogSizes.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))
+                    : sizes.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="color">Color</InputLabel>
+                <OutlinedInput id="color" />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox name="vaccinated" />}
+                label="Vaccinated"
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox name="sterilized" />}
+                label="Spayed / Neutered"
+              />
+            </Grid>
+            <Grid item>
+              <FormControlLabel
+                control={<Checkbox name="trained" />}
+                label="Trained"
+              />
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="description">Description</InputLabel>
+                <OutlinedInput id="description" multiline={true} rows={3} />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormControl fullWidth>
+                <InputLabel htmlFor="picture">Picture</InputLabel>
+                <OutlinedInput
+                  id="picture"
+                  type="file"
+                  label="picture"
+                  accept="image/jpeg"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <InsertPhotoIcon />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <LoadingButton
+                variant="contained"
+                type="submit"
+                loading={loading}
+              >
+                Create
+              </LoadingButton>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="color">Color</InputLabel>
-            <Input id="color" />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControlLabel
-            control={<Checkbox name="vaccinated" />}
-            label="Vaccinated"
-          />
-        </Grid>
-        <Grid item>
-          <FormControlLabel
-            control={<Checkbox name="sterilized" />}
-            label="Spayed / Neutered"
-          />
-        </Grid>
-        <Grid item>
-          <FormControlLabel
-            control={<Checkbox name="trained" />}
-            label="Trained"
-          />
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="description">Description</InputLabel>
-            <Input id="description" multiline={true} rows={3} />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="picture">Picture</InputLabel>
-            <Input
-              id="picture"
-              type="file"
-              label="picture"
-              accept="image/jpeg"
-            />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <LoadingButton variant="contained" type="submit" loading={loading}>
-            Create
-          </LoadingButton>
+        <Grid item xs={6} position="relative">
+          <Image src={publish} alt="publish" layout="fill" objectFit="cover" />
         </Grid>
       </Grid>
     </>

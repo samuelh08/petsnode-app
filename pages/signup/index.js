@@ -4,17 +4,16 @@ import {
   Alert,
   FormControl,
   Grid,
-  Input,
   InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import adopt from '../../public/adopt.jpg';
-import publish from '../../public/publish.jpg';
 import { Signup } from '../../api/users';
 import Image from 'next/image';
 
@@ -71,37 +70,37 @@ export default function SignUp() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="firstname">{'First name'}</InputLabel>
-                <Input id="firstname" />
+                <OutlinedInput id="firstname" />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="lastname">{'Last name'}</InputLabel>
-                <Input id="lastname" />
+                <OutlinedInput id="lastname" />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="email">{'Email'}</InputLabel>
-                <Input id="email" />
+                <OutlinedInput id="email" />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="password">{'Password'}</InputLabel>
-                <Input type="password" id="password" />
+                <OutlinedInput type="password" id="password" />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="phone">{'Phone number'}</InputLabel>
-                <Input id="phone" />
+                <OutlinedInput id="phone" />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="address">{'Address'}</InputLabel>
-                <Input id="address" />
+                <OutlinedInput id="address" />
               </FormControl>
             </Grid>
             <Grid item>
@@ -125,7 +124,7 @@ export default function SignUp() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="document">{'Document number'}</InputLabel>
-                <Input
+                <OutlinedInput
                   startAdornment={
                     <InputAdornment position="start">{type}</InputAdornment>
                   }
@@ -136,7 +135,6 @@ export default function SignUp() {
             <Grid item>
               <LoadingButton
                 variant="contained"
-                color="secondary"
                 type="submit"
                 loading={loading}
               >
