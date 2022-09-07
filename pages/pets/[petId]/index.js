@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import {
   Alert,
   Box,
@@ -10,6 +10,7 @@ import {
   CardContent,
   CardMedia,
   Checkbox,
+  Chip,
   CircularProgress,
   FormControl,
   FormControlLabel,
@@ -19,6 +20,7 @@ import {
   Modal,
   OutlinedInput,
   Select,
+  Stack,
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -70,7 +72,9 @@ export default function Pet({ data }) {
         `users/${user._id}/applications/${applicationId}/replies`,
         { message: payload.message.value, answer: payload.answer.value },
       );
+      mutate(`/pets/${data._id}/applications`);
     } catch (error) {
+      console.log(error);
       setError(error);
     } finally {
       setOpenReply(false);
@@ -195,6 +199,20 @@ export default function Pet({ data }) {
                   <CardContent>
                     <Typography variant="h5">{item.userId.name}</Typography>
                     <Typography variant="body">{item.message}</Typography>
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="h5">Reply</Typography>
+                      <Chip
+                        label={item.reply[0]?.answer ?? 'Pending'}
+                        color={
+                          (item.reply[0]?.answer === 'Accepted' && 'success') ||
+                          (item.reply[0]?.answer === 'Denied' && 'error') ||
+                          'default'
+                        }
+                      />
+                    </Stack>
+                    <Typography variant="body">
+                      {item.reply[0]?.message}
+                    </Typography>
                   </CardContent>
                   <CardActions>
                     <Button

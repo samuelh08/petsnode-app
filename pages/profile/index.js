@@ -9,8 +9,10 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Chip,
   CircularProgress,
   Grid,
+  Stack,
   Typography,
 } from '@mui/material';
 
@@ -94,7 +96,7 @@ export default function Profile() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8} display="flex" flexDirection="column">
           <Typography variant="h3" marginTop={5} marginX={5} align="center">
             My pets for adoption
           </Typography>
@@ -136,11 +138,11 @@ export default function Profile() {
                 </CardActionArea>
               </Card>
             ))}
-            <Button href="/createPet" sx={{ marginTop: 5 }}>
-              Rehome a pet
-            </Button>
           </Box>
-          <Typography variant="h3" marginTop={5} marginX={5} align="center">
+          <Button href="/createPet" sx={{ marginTop: 5, alignSelf: 'center' }}>
+            Rehome a pet
+          </Button>
+          <Typography variant="h3" marginY={5} marginX={5} align="center">
             My applications
           </Typography>
           <Grid container flexDirection="column">
@@ -148,7 +150,7 @@ export default function Profile() {
               <Typography
                 variant="body"
                 component="div"
-                marginTop={5}
+                marginY={5}
                 marginX={5}
                 align="center"
               >
@@ -158,7 +160,12 @@ export default function Profile() {
             {applications.data.map((item) => (
               <Card
                 key={item._id}
-                sx={{ maxHeight: 200, margin: 5, display: 'flex' }}
+                sx={{
+                  maxHeight: 200,
+                  marginX: 5,
+                  marginBottom: 5,
+                  display: 'flex',
+                }}
               >
                 <CardMedia
                   component="img"
@@ -166,7 +173,7 @@ export default function Profile() {
                   alt={item.petId.name}
                   sx={{ maxWidth: 200 }}
                 />
-                <CardContent sx={{ flex: '1 0 auto' }}>
+                <CardContent sx={{ flex: '1 0 auto', width: 'min-content' }}>
                   <Typography component="div" variant="h5">
                     {item.petId.name}
                   </Typography>
@@ -176,6 +183,22 @@ export default function Profile() {
                     component="div"
                   >
                     {item.message}
+                  </Typography>
+                  <Stack direction="row" spacing={1}>
+                    <Typography component="div" variant="h5">
+                      Reply
+                    </Typography>
+                    <Chip
+                      label={item.reply[0]?.answer ?? 'Pending'}
+                      color={
+                        (item.reply[0]?.answer === 'Accepted' && 'success') ||
+                        (item.reply[0]?.answer === 'Denied' && 'error') ||
+                        'default'
+                      }
+                    />
+                  </Stack>
+                  <Typography variant="body">
+                    {item.reply[0]?.message}
                   </Typography>
                 </CardContent>
                 <CardActions>
