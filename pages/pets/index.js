@@ -88,8 +88,6 @@ export default function Pets() {
           <Tabs
             value={animal}
             onChange={handleChangeAnimal}
-            textColor="secondary"
-            indicatorColor="secondary"
             aria-label="animal filter"
             centered
           >
@@ -228,7 +226,6 @@ export default function Pets() {
             <Grid item display="flex" justifyContent="center">
               <Pagination
                 count={data.meta.pages}
-                color="secondary"
                 page={page}
                 onChange={handleChangePage}
               />

@@ -5,7 +5,7 @@ import BarUser from './BarUser';
 
 export default function appBar() {
   return (
-    <AppBar position="sticky" color="secondary">
+    <AppBar position="sticky">
       <Container>
         <Toolbar>
           <Grid
