@@ -136,7 +136,7 @@ export default function Home({ data, meta }) {
             <Grid item>
               <Card
                 sx={{
-                  backgroundColor: 'slateBlue',
+                  backgroundColor: '#1976d2',
                 }}
               >
                 <CardActionArea href="/pets">
@@ -156,7 +156,7 @@ export default function Home({ data, meta }) {
             <Grid item>
               <Card
                 sx={{
-                  backgroundColor: 'slateBlue',
+                  backgroundColor: '#1976d2',
                 }}
               >
                 <CardActionArea href="/createPet">

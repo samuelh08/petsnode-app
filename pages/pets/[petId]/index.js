@@ -28,7 +28,7 @@ import { LoadingButton } from '@mui/lab';
 import UserContext from '../../../context/user';
 import { createApplication, getApplications } from '../../../api/applications';
 import { deletePet } from '../../../api/pets';
-import { createReply } from '../../../api/replies';
+import { createReply, updateReply } from '../../../api/replies';
 
 export default function Pet({ data }) {
   const { user } = useContext(UserContext);
@@ -38,16 +38,19 @@ export default function Pet({ data }) {
   );
   const router = useRouter();
   const [applicationId, setApplicationId] = useState('');
+  const [replyId, setReplyId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [openBackground, setOpenBackground] = useState(false);
   const [openReply, setOpenReply] = useState(false);
+  const [openEditReply, setOpenEditReply] = useState(false);
   const handleOpen = (setFunction) => setFunction(true);
   const handleClose = (setFunction) => setFunction(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(null);
     const payload = event.target.elements;
     setLoading(true);
     try {
@@ -65,6 +68,7 @@ export default function Pet({ data }) {
 
   const handleSubmitReply = async (event) => {
     event.preventDefault();
+    setError(null);
     const payload = event.target.elements;
     setLoading(true);
     try {
@@ -82,7 +86,28 @@ export default function Pet({ data }) {
     }
   };
 
+  const handleEditReply = async (event) => {
+    event.preventDefault();
+    setError(null);
+    const payload = event.target.elements;
+    setLoading(true);
+    try {
+      await updateReply(replyId, {
+        message: payload.message.value,
+        answer: payload.answer.value,
+      });
+      mutate(`/pets/${data._id}/applications`);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    } finally {
+      setOpenEditReply(false);
+      setLoading(false);
+    }
+  };
+
   const handleDelete = async () => {
+    setError(null);
     setLoading(true);
     try {
       await deletePet(data._id);
@@ -222,14 +247,25 @@ export default function Pet({ data }) {
                     >
                       Check background
                     </Button>
-                    <Button
-                      onClick={function () {
-                        setApplicationId(item._id);
-                        handleOpen(setOpenReply);
-                      }}
-                    >
-                      Reply
-                    </Button>
+                    {item.reply ? (
+                      <Button
+                        onClick={function () {
+                          setReplyId(item.reply[0]._id);
+                          handleOpen(setOpenEditReply);
+                        }}
+                      >
+                        Edit Reply
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={function () {
+                          setApplicationId(item._id);
+                          handleOpen(setOpenReply);
+                        }}
+                      >
+                        Reply
+                      </Button>
+                    )}
                   </CardActions>
                 </Card>
               ))}
@@ -338,7 +374,7 @@ export default function Pet({ data }) {
           <Typography id="reply-modal-description" sx={{ mt: 2 }}>
             Reply to this applicant request
           </Typography>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel htmlFor="answer">Answer</InputLabel>
             <Select labelId="answer" name="answer" id="answer" label="Answer">
               <MenuItem key="Accepted" value="Accepted">
@@ -349,7 +385,7 @@ export default function Pet({ data }) {
               </MenuItem>
             </Select>
           </FormControl>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel htmlFor="message">Message</InputLabel>
             <OutlinedInput
               id="message"
@@ -358,8 +394,73 @@ export default function Pet({ data }) {
               rows={3}
             />
           </FormControl>
-          <LoadingButton variant="contained" type="submit" loading={loading}>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={loading}
+            sx={{ mt: 2 }}
+          >
             Reply
+          </LoadingButton>
+        </Box>
+      </Modal>
+      <Modal
+        open={openEditReply}
+        onClose={function () {
+          setReplyId('');
+          handleClose(setOpenEditReply);
+        }}
+        aria-labelledby="reply-modal-title"
+        aria-describedby="reply-modal-description"
+      >
+        <Box
+          component="form"
+          onSubmit={handleEditReply}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="reply-modal-title" variant="h6" component="h2">
+            Edit Reply
+          </Typography>
+          <Typography id="reply-modal-description" sx={{ mt: 2 }}>
+            Edit the Reply to this applicant request
+          </Typography>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="answer">Answer</InputLabel>
+            <Select labelId="answer" name="answer" id="answer" label="Answer">
+              <MenuItem key="Accepted" value="Accepted">
+                Accepted
+              </MenuItem>
+              <MenuItem key="Denied" value="Denied">
+                Denied
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="message">Message</InputLabel>
+            <OutlinedInput
+              id="message"
+              label="message"
+              multiline={true}
+              rows={3}
+            />
+          </FormControl>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={loading}
+            sx={{ mt: 2 }}
+          >
+            Edit
           </LoadingButton>
         </Box>
       </Modal>
