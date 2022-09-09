@@ -87,7 +87,7 @@ export default function Profile() {
             <CardActions>
               <Grid container alignContent="center" flexDirection="column">
                 <Grid item>
-                  <Button>Edit</Button>
+                  <Button href="/editProfile">Edit</Button>
                 </Grid>
                 <Grid item>
                   <Button color="error">Delete</Button>

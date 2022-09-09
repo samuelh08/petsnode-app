@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import {
   Alert,
   FormControl,
@@ -13,19 +14,36 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+import UserContext from '../../context/user';
 import adopt from '../../public/adopt.jpg';
-import { signup } from '../../api/users';
-import Image from 'next/image';
+import { updateUser } from '../../api/users';
 
-export default function SignUp() {
+export default function EditProfile() {
+  const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [userFirstname, setUserFirstname] = useState('');
+  const [userLastname, setUserLastname] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPhone, setUserPhone] = useState('');
+  const [userAddress, setUserAddress] = useState('');
   const [type, setType] = useState('');
+  const [userDocument, setUserDocument] = useState('');
   const router = useRouter();
 
+  useEffect(() => {
+    setType(user?.documentType.toUpperCase());
+    setUserFirstname(user?.firstname);
+    setUserLastname(user?.lastname);
+    setUserEmail(user?.email);
+    setUserPhone(user?.phone);
+    setUserAddress(user?.address);
+    setUserDocument(user?.document);
+  }, [user]);
+
   const documentTypes = ['CC', 'CE'];
-  const handleChange = (event) => {
-    setType(event.target.value);
+  const handleChange = (event, setfunction) => {
+    setfunction(event.target.value);
   };
 
   const handleSubmit = async (event) => {
@@ -34,17 +52,17 @@ export default function SignUp() {
     const payload = event.target.elements;
     setLoading(true);
     try {
-      await signup({
+      const json = await updateUser(user._id, {
         firstname: payload.firstname.value,
         lastname: payload.lastname.value,
         email: payload.email.value,
-        password: payload.password.value,
         phone: payload.phone.value,
         address: payload.address.value,
         documentType: payload.documentType.value,
         document: payload.document.value,
       });
-      router.push('/login');
+      setUser(json.data);
+      router.push('/profile');
     } catch (error) {
       setError(error);
     } finally {
@@ -58,7 +76,7 @@ export default function SignUp() {
       <Grid container>
         <Grid item xs={6}>
           <Typography variant="h2" marginTop="20px" marginX="40px">
-            Signup
+            EditProfile
           </Typography>
           <Grid
             container
@@ -71,37 +89,66 @@ export default function SignUp() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="firstname">{'First name'}</InputLabel>
-                <OutlinedInput id="firstname" label="First name" />
+                <OutlinedInput
+                  id="firstname"
+                  label="First name"
+                  value={userFirstname}
+                  onChange={function (event) {
+                    handleChange(event, setUserFirstname);
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="lastname">{'Last name'}</InputLabel>
-                <OutlinedInput id="lastname" label="Last name" />
+                <OutlinedInput
+                  id="lastname"
+                  label="Last name"
+                  value={userLastname}
+                  onChange={function (event) {
+                    handleChange(event, setUserLastname);
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="email">{'Email'}</InputLabel>
-                <OutlinedInput id="email" label="Email" />
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <FormControl fullWidth>
-                <InputLabel htmlFor="password">{'Password'}</InputLabel>
-                <OutlinedInput type="password" id="password" label="Password" />
+                <OutlinedInput
+                  id="email"
+                  label="Email"
+                  value={userEmail}
+                  onChange={function (event) {
+                    handleChange(event, setUserEmail);
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="phone">{'Phone number'}</InputLabel>
-                <OutlinedInput id="phone" label="Phone number" />
+                <OutlinedInput
+                  id="phone"
+                  label="Phone number"
+                  value={userPhone}
+                  onChange={function (event) {
+                    handleChange(event, setUserPhone);
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="address">{'Address'}</InputLabel>
-                <OutlinedInput id="address" label="Address" />
+                <OutlinedInput
+                  id="address"
+                  label="Address"
+                  value={userAddress}
+                  onChange={function (event) {
+                    handleChange(event, setUserAddress);
+                  }}
+                />
               </FormControl>
             </Grid>
             <Grid item>
@@ -112,7 +159,10 @@ export default function SignUp() {
                   name="documentType"
                   id="documentType"
                   label="Document type"
-                  onChange={handleChange}
+                  value={type}
+                  onChange={function (event) {
+                    handleChange(event, setType);
+                  }}
                 >
                   {documentTypes.map((option) => (
                     <MenuItem key={option} value={option}>
@@ -131,6 +181,10 @@ export default function SignUp() {
                   }
                   id="document"
                   label="Document number"
+                  value={userDocument}
+                  onChange={function (event) {
+                    handleChange(event, setUserDocument);
+                  }}
                 />
               </FormControl>
             </Grid>
@@ -140,7 +194,7 @@ export default function SignUp() {
                 type="submit"
                 loading={loading}
               >
-                Sign Up
+                Edit
               </LoadingButton>
             </Grid>
           </Grid>
