@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 import {
   Alert,
   Checkbox,
@@ -14,12 +16,10 @@ import {
 } from '@mui/material';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { LoadingButton } from '@mui/lab';
-import { useRouter } from 'next/router';
 
 import publish from '../../public/publish.jpg';
 import { createPet } from '../../api/pets';
 import UserContext from '../../context/user';
-import Image from 'next/image';
 
 export default function CreatePet() {
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function CreatePet() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
-                <OutlinedInput id="name" />
+                <OutlinedInput id="name" label="Pet's name" />
               </FormControl>
             </Grid>
             <Grid item>
@@ -126,7 +126,7 @@ export default function CreatePet() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="breed">Breed</InputLabel>
-                <OutlinedInput id="breed" />
+                <OutlinedInput id="breed" label="Breed" />
               </FormControl>
             </Grid>
             <Grid item>
@@ -187,7 +187,7 @@ export default function CreatePet() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="color">Color</InputLabel>
-                <OutlinedInput id="color" />
+                <OutlinedInput id="color" label="Color" />
               </FormControl>
             </Grid>
             <Grid item>
@@ -211,7 +211,12 @@ export default function CreatePet() {
             <Grid item>
               <FormControl fullWidth>
                 <InputLabel htmlFor="description">Description</InputLabel>
-                <OutlinedInput id="description" multiline={true} rows={3} />
+                <OutlinedInput
+                  id="description"
+                  multiline={true}
+                  rows={3}
+                  label="description"
+                />
               </FormControl>
             </Grid>
             <Grid item>
