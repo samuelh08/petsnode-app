@@ -36,7 +36,7 @@ export default function Pets() {
   const [page, setPage] = useState(1);
 
   const { data, error } = useSWR(
-    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}&page=${page}`,
+    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}&page=${page}&limit=9`,
     getPets,
   );
 
@@ -203,11 +203,12 @@ export default function Pets() {
                 display: 'flex',
                 justifyContent: 'space-around',
                 alignContent: 'flex-start',
+                flexWrap: 'wrap',
               }}
               margin={4}
             >
               {data?.data.map((item) => (
-                <Card key={item._id} sx={{ maxWidth: 200 }}>
+                <Card key={item._id} sx={{ maxWidth: 200, marginBottom: 4 }}>
                   <CardActionArea href={`/pets/${item._id}`}>
                     <CardMedia
                       component="img"
