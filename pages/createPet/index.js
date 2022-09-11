@@ -68,11 +68,13 @@ export default function CreatePet() {
 
     try {
       setLoading(true);
+      setError(null);
       await createPet(`/users/${user?._id}/pets`, formData);
-      setLoading(false);
       router.push('/profile');
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
