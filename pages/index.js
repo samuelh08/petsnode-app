@@ -60,7 +60,7 @@ export default function Home({ data, meta }) {
                     bgcolor: 'background.default',
                   }}
                 >
-                  <Typography variant="h5">{data[activeStep].name}</Typography>
+                  <Typography variant="h5">{data[activeStep]?.name}</Typography>
                 </Paper>
                 <AutoPlaySwipeableViews
                   axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
