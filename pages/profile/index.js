@@ -12,6 +12,7 @@ import {
   Chip,
   CircularProgress,
   Grid,
+  Pagination,
   Stack,
   Typography,
 } from '@mui/material';
@@ -23,8 +24,9 @@ import { LoadingButton } from '@mui/lab';
 
 export default function Profile() {
   const { user } = useContext(UserContext);
+  const [pagePets, setPagePets] = useState(1);
   const { data: pets, error: errorPets } = useSWR(
-    `/users/${user?._id}/pets`,
+    `/users/${user?._id}/pets?limit=8&page=${pagePets}`,
     getPets,
   );
   const { data: applications, error: errorApplications } = useSWR(
@@ -34,6 +36,10 @@ export default function Profile() {
   const { mutate } = useSWRConfig();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const handleChangePagePets = (event, value) => {
+    setPagePets(value);
+  };
 
   const handleDeleteApplication = async (id) => {
     setLoading(true);
@@ -56,9 +62,9 @@ export default function Profile() {
       {error && <Alert severity="error">{error}</Alert>}
       {errorPets && <Alert severity="error">{errorPets}</Alert>}
       {errorApplications && <Alert severity="error">{errorApplications}</Alert>}
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Card sx={{ marginTop: 5, marginLeft: 5 }}>
+      <Grid container spacing={2} flexDirection="column">
+        <Grid item alignSelf="center">
+          <Card sx={{ marginTop: 5, marginX: 5 }}>
             <CardContent>
               <Grid container alignContent="center" flexDirection="column">
                 <Grid item>
@@ -96,7 +102,7 @@ export default function Profile() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={8} display="flex" flexDirection="column">
+        <Grid item display="flex" flexDirection="column">
           <Typography variant="h3" marginTop={5} marginX={5} align="center">
             My pets for adoption
           </Typography>
@@ -139,6 +145,14 @@ export default function Profile() {
               </Card>
             ))}
           </Box>
+          {pets.meta.pages > 1 && (
+            <Pagination
+              count={pets.meta.pages}
+              page={pagePets}
+              onChange={handleChangePagePets}
+              sx={{ alignSelf: 'center' }}
+            />
+          )}
           <Button href="/createPet" sx={{ marginTop: 5, alignSelf: 'center' }}>
             Rehome a pet
           </Button>
@@ -221,6 +235,9 @@ export default function Profile() {
                 </CardActions>
               </Card>
             ))}
+            <Button href="/pets" sx={{ marginY: 5, alignSelf: 'center' }}>
+              Adopt a pet
+            </Button>
           </Grid>
         </Grid>
       </Grid>
