@@ -36,7 +36,7 @@ export default function Pets() {
   const [page, setPage] = useState(1);
 
   const { data, error } = useSWR(
-    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}&page=${page}&limit=9`,
+    `/pets?status=Available&animal=${animal}&name=${name}&size=${size}&age=${age}&sex=${sex}&page=${page}&limit=8`,
     getPets,
   );
 
@@ -224,13 +224,15 @@ export default function Pets() {
                 </Card>
               ))}
             </Box>
-            <Grid item display="flex" justifyContent="center">
-              <Pagination
-                count={data.meta.pages}
-                page={page}
-                onChange={handleChangePage}
-              />
-            </Grid>
+            {data.meta.pages > 1 && (
+              <Grid item display="flex" justifyContent="center">
+                <Pagination
+                  count={data.meta.pages}
+                  page={page}
+                  onChange={handleChangePage}
+                />
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </main>
