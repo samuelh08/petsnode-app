@@ -12,18 +12,22 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
+import HouseIcon from '@mui/icons-material/House';
+import PetsIcon from '@mui/icons-material/Pets';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import banner from '../public/banner.jpg';
+import Image from 'next/image';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 export default function Home({ data, meta }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = meta.total;
+  const maxSteps = data.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -39,6 +43,32 @@ export default function Home({ data, meta }) {
 
   return (
     <>
+      <div
+        style={{
+          position: 'relative',
+          height: '50vh',
+          width: '100vw',
+          overflow: 'hidden',
+          zIndex: -1,
+        }}
+      >
+        <Image
+          src={banner}
+          alt="banner"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+        <Typography
+          variant="h2"
+          position="absolute"
+          color="white"
+          margin={5}
+          style={{ WebkitTextStroke: '1px grey' }}
+        >
+          Welcome to PetsNode
+        </Typography>
+      </div>
       <Grid container alignItems="center" justifyContent="space-around">
         <Grid item>
           <Grid container flexDirection="column">
@@ -57,10 +87,16 @@ export default function Home({ data, meta }) {
                     alignItems: 'center',
                     height: 50,
                     pl: 2,
-                    bgcolor: 'background.default',
+                    bgcolor: '#fff0',
                   }}
                 >
-                  <Typography variant="h5">{data[activeStep]?.name}</Typography>
+                  <Typography variant="h5" marginRight={1}>
+                    {data[activeStep]?.name}
+                  </Typography>
+                  <Typography variant="body">
+                    • {data[activeStep]?.sex} • {data[activeStep]?.age} •
+                    {data[activeStep]?.size}
+                  </Typography>
                 </Paper>
                 <AutoPlaySwipeableViews
                   axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -126,6 +162,7 @@ export default function Home({ data, meta }) {
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item>
           <Grid
             container
@@ -134,15 +171,32 @@ export default function Home({ data, meta }) {
             justifyContent="center"
           >
             <Grid item>
+              <Typography variant="h3" textAlign="center" justifySelf="center">
+                What do you want to do?
+              </Typography>
+            </Grid>
+            <Grid item>
               <Card
                 sx={{
                   backgroundColor: '#1976d2',
+                  marginX: 5,
                 }}
               >
-                <CardActionArea href="/pets">
+                <CardActionArea
+                  href="/pets"
+                  sx={{
+                    display: 'flex',
+                  }}
+                >
+                  <CardMedia>
+                    <PetsIcon
+                      sx={{ color: 'white', marginLeft: 1 }}
+                      fontSize="large"
+                    />
+                  </CardMedia>
                   <CardContent>
                     <Typography
-                      variant="h3"
+                      variant="h4"
                       textAlign="center"
                       justifySelf="center"
                       color="white"
@@ -157,12 +211,25 @@ export default function Home({ data, meta }) {
               <Card
                 sx={{
                   backgroundColor: '#1976d2',
+                  marginX: 5,
+                  marginBottom: 5,
                 }}
               >
-                <CardActionArea href="/createPet">
+                <CardActionArea
+                  href="/createPet"
+                  sx={{
+                    display: 'flex',
+                  }}
+                >
+                  <CardMedia>
+                    <HouseIcon
+                      sx={{ color: 'white', marginLeft: 1 }}
+                      fontSize="large"
+                    />
+                  </CardMedia>
                   <CardContent>
                     <Typography
-                      variant="h3"
+                      variant="h4"
                       textAlign="center"
                       justifySelf="center"
                       color="white"
