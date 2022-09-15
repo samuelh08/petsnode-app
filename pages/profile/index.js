@@ -25,12 +25,13 @@ import { LoadingButton } from '@mui/lab';
 export default function Profile() {
   const { user } = useContext(UserContext);
   const [pagePets, setPagePets] = useState(1);
+  const [pageApplications, setPageApplications] = useState(1);
   const { data: pets, error: errorPets } = useSWR(
     `/users/${user?._id}/pets?limit=8&page=${pagePets}`,
     getPets,
   );
   const { data: applications, error: errorApplications } = useSWR(
-    `/users/${user?._id}/applications`,
+    `/users/${user?._id}/applications?page=${pageApplications}`,
     getApplications,
   );
   const { mutate } = useSWRConfig();
@@ -39,6 +40,10 @@ export default function Profile() {
 
   const handleChangePagePets = (event, value) => {
     setPagePets(value);
+  };
+
+  const handleChangePageApplications = (event, value) => {
+    setPageApplications(value);
   };
 
   const handleDeleteApplication = async (id) => {
@@ -53,8 +58,8 @@ export default function Profile() {
     }
   };
 
-  if (!pets || !applications) {
-    return <CircularProgress color="inherit" />;
+  if (!user) {
+    return <CircularProgress color="inherit" sx={{ margin: '0 auto' }} />;
   }
 
   return (
@@ -106,7 +111,7 @@ export default function Profile() {
           <Typography variant="h3" marginTop={5} marginX={5} align="center">
             My pets for adoption
           </Typography>
-          {!pets.meta.total && (
+          {!pets?.meta.total === 0 && (
             <Typography
               variant="body"
               component="div"
@@ -125,7 +130,8 @@ export default function Profile() {
               alignContent: 'flex-start',
             }}
           >
-            {pets.data.map((item) => (
+            {!pets && <CircularProgress color="inherit" sx={{ margin: 5 }} />}
+            {pets?.data.map((item) => (
               <Card key={item._id} sx={{ maxWidth: 200, margin: 5 }}>
                 <CardActionArea href={`/pets/${item._id}`}>
                   <CardMedia
@@ -145,7 +151,7 @@ export default function Profile() {
               </Card>
             ))}
           </Box>
-          {pets.meta.pages > 1 && (
+          {pets?.meta.pages > 1 && (
             <Pagination
               count={pets.meta.pages}
               page={pagePets}
@@ -160,7 +166,7 @@ export default function Profile() {
             My applications
           </Typography>
           <Grid container flexDirection="column">
-            {!applications.meta.total && (
+            {!applications?.meta.total && (
               <Typography
                 variant="body"
                 component="div"
@@ -171,7 +177,10 @@ export default function Profile() {
                 {"You don't have any applications"}
               </Typography>
             )}
-            {applications.data.map((item) => (
+            {!applications && (
+              <CircularProgress color="inherit" sx={{ margin: 5 }} />
+            )}
+            {applications?.data.map((item) => (
               <Card
                 key={item._id}
                 sx={{
@@ -235,6 +244,14 @@ export default function Profile() {
                 </CardActions>
               </Card>
             ))}
+            {applications?.meta.pages > 1 && (
+              <Pagination
+                count={applications.meta.pages}
+                page={pageApplications}
+                onChange={handleChangePageApplications}
+                sx={{ alignSelf: 'center' }}
+              />
+            )}
             <Button href="/pets" sx={{ marginY: 5, alignSelf: 'center' }}>
               Adopt a pet
             </Button>
