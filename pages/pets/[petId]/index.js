@@ -207,7 +207,7 @@ export default function Pet({ data }) {
           <Typography
             variant="body"
             component="div"
-            marginTop={5}
+            marginY={5}
             marginX={5}
             align="center"
           >
@@ -339,7 +339,7 @@ export default function Pet({ data }) {
           <Typography id="background-modal-title" variant="h6" component="h2">
             Background check
           </Typography>
-          <Typography id="background-modal-description" sx={{ mt: 2 }}>
+          <Typography id="background-modal-description" sx={{ my: 2 }}>
             This user has no pending issues with the judicial authorities
           </Typography>
         </Box>
