@@ -69,10 +69,6 @@ export default function Pets() {
     setPage(value);
   };
 
-  if (!data) {
-    return <CircularProgress color="inherit" />;
-  }
-
   return (
     <>
       <main>
@@ -122,7 +118,7 @@ export default function Pets() {
                     name="size"
                     id="size"
                     label="size"
-                    margin="4"
+                    margin={4}
                     onChange={handleChangeSize}
                   >
                     {animal === 'Dog'
@@ -200,6 +196,7 @@ export default function Pets() {
               }}
               margin={4}
             >
+              {!data && <CircularProgress color="inherit" />}
               {data?.data.map((item) => (
                 <Card key={item._id} sx={{ maxWidth: 200, marginBottom: 4 }}>
                   <CardActionArea href={`/pets/${item._id}`}>
@@ -217,7 +214,7 @@ export default function Pets() {
                 </Card>
               ))}
             </Box>
-            {data.meta.pages > 1 && (
+            {data?.meta.pages > 1 && (
               <Grid item display="flex" justifyContent="center">
                 <Pagination
                   count={data.meta.pages}
