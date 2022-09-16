@@ -203,7 +203,7 @@ export default function Pet({ data }) {
         )}
         {!applications ? (
           <CircularProgress color="inherit" />
-        ) : !applications.meta.total ? (
+        ) : !applications.meta.total && data.userId._id === user?._id ? (
           <Typography
             variant="body"
             component="div"
