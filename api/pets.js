@@ -31,6 +31,16 @@ export async function createPet(url = '/pets', payload) {
   });
 }
 
+export async function updatePet(id, payload) {
+  return await http.put(`/pets/${id}`, payload).then((response) => {
+    const { data: json } = response;
+
+    return {
+      data: json.data,
+    };
+  });
+}
+
 export async function deletePet(id) {
   return await http.delete(`pets/${id}`).then((response) => {
     const { data: json } = response;

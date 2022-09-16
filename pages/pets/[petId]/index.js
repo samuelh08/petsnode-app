@@ -181,7 +181,7 @@ export default function Pet({ data }) {
                     </Button>
                   ) : (
                     <div>
-                      <Button>Edit</Button>
+                      <Button href={`/editPet/${data._id}`}>Edit</Button>
                       <LoadingButton
                         color="error"
                         loading={loading}
@@ -247,7 +247,7 @@ export default function Pet({ data }) {
                     >
                       Check background
                     </Button>
-                    {item.reply ? (
+                    {item?.reply ? (
                       <Button
                         onClick={function () {
                           setReplyId(item.reply[0]._id);
