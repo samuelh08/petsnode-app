@@ -301,7 +301,7 @@ export default function Pet({ data }) {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Leave a message to the pet keeper
           </Typography>
-          <FormControl fullWidth>
+          <FormControl fullWidth sx={{ mt: 2 }}>
             <InputLabel htmlFor="message">Message</InputLabel>
             <OutlinedInput
               id="message"
@@ -310,7 +310,12 @@ export default function Pet({ data }) {
               rows={3}
             />
           </FormControl>
-          <LoadingButton variant="contained" type="submit" loading={loading}>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={loading}
+            sx={{ mt: 2 }}
+          >
             Apply
           </LoadingButton>
         </Box>
