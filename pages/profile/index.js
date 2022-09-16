@@ -23,6 +23,7 @@ import { getApplications, deleteApplication } from '../../api/applications';
 import { LoadingButton } from '@mui/lab';
 
 export default function Profile() {
+  const { mutate } = useSWRConfig();
   const { user } = useContext(UserContext);
   const [pagePets, setPagePets] = useState(1);
   const [pageApplications, setPageApplications] = useState(1);
@@ -34,7 +35,7 @@ export default function Profile() {
     `/users/${user?._id}/applications?page=${pageApplications}`,
     getApplications,
   );
-  const { mutate } = useSWRConfig();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -50,7 +51,7 @@ export default function Profile() {
     setLoading(true);
     try {
       await deleteApplication(id);
-      mutate(`/users/${user?._id}/applications`);
+      mutate(`/users/${user?._id}/applications?page=${pageApplications}`);
     } catch (error) {
       setError(error);
     } finally {
@@ -111,7 +112,7 @@ export default function Profile() {
           <Typography variant="h3" marginTop={5} marginX={5} align="center">
             My pets for adoption
           </Typography>
-          {!pets?.meta.total === 0 && (
+          {pets?.meta.total === 0 && (
             <Typography
               variant="body"
               component="div"
@@ -166,7 +167,7 @@ export default function Profile() {
             My applications
           </Typography>
           <Grid container flexDirection="column">
-            {!applications?.meta.total && (
+            {applications?.meta.total === 0 && (
               <Typography
                 variant="body"
                 component="div"
