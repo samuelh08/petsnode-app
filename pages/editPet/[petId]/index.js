@@ -87,8 +87,8 @@ export default function EditPet({ data }) {
     <>
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container>
-        <Grid item xs={6}>
-          <Typography variant="h2" margin="10px">
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h2" margin="10px" color="#3B4950">
             Edit pet
           </Typography>
           <Grid
@@ -100,7 +100,7 @@ export default function EditPet({ data }) {
             spacing={3}
           >
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
                 <OutlinedInput
                   id="name"
@@ -113,7 +113,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel id="animal-label">Animal</InputLabel>
                 <Select
                   labelId="animal-label"
@@ -134,7 +134,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="breed">Breed</InputLabel>
                 <OutlinedInput
                   id="breed"
@@ -147,7 +147,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="sex">Sex</InputLabel>
                 <Select
                   name="sex"
@@ -167,7 +167,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="age">Age</InputLabel>
                 <Select
                   name="age"
@@ -200,7 +200,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="size">Size</InputLabel>
                 <Select
                   name="size"
@@ -226,7 +226,7 @@ export default function EditPet({ data }) {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="color">Color</InputLabel>
                 <OutlinedInput
                   id="color"
@@ -269,7 +269,7 @@ export default function EditPet({ data }) {
               />
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="description">Description</InputLabel>
                 <OutlinedInput
                   id="description"
@@ -294,7 +294,7 @@ export default function EditPet({ data }) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} position="relative">
+        <Grid item xs={0} sm={6} position="relative">
           <Image src={publish} alt="publish" layout="fill" objectFit="cover" />
         </Grid>
       </Grid>

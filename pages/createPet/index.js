@@ -89,8 +89,8 @@ export default function CreatePet() {
     <>
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container>
-        <Grid item xs={6}>
-          <Typography variant="h2" margin="10px">
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h2" margin="10px" color="#3B4950">
             Rehome a pet
           </Typography>
           <Grid
@@ -102,13 +102,13 @@ export default function CreatePet() {
             spacing={3}
           >
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="name">{"Pet's name"}</InputLabel>
                 <OutlinedInput id="name" label="Pet's name" />
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel id="animal-label">Animal</InputLabel>
                 <Select
                   labelId="animal-label"
@@ -126,13 +126,13 @@ export default function CreatePet() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="breed">Breed</InputLabel>
                 <OutlinedInput id="breed" label="Breed" />
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="sex">Sex</InputLabel>
                 <Select name="sex" id="sex" label="sex">
                   {sexes.map((option) => (
@@ -144,7 +144,7 @@ export default function CreatePet() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="age">Age</InputLabel>
                 <Select name="age" id="age" label="age">
                   {formAnimal === 'Dog' &&
@@ -169,7 +169,7 @@ export default function CreatePet() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="size">Size</InputLabel>
                 <Select name="size" id="size" label="size">
                   {formAnimal === 'Dog'
@@ -187,7 +187,7 @@ export default function CreatePet() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="color">Color</InputLabel>
                 <OutlinedInput id="color" label="Color" />
               </FormControl>
@@ -211,7 +211,7 @@ export default function CreatePet() {
               />
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="description">Description</InputLabel>
                 <OutlinedInput
                   id="description"
@@ -222,7 +222,7 @@ export default function CreatePet() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="picture">Picture</InputLabel>
                 <OutlinedInput
                   id="picture"
@@ -248,7 +248,7 @@ export default function CreatePet() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} position="relative">
+        <Grid item xs={0} sm={6} position="relative">
           <Image src={publish} alt="publish" layout="fill" objectFit="cover" />
         </Grid>
       </Grid>

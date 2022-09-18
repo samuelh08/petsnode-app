@@ -74,8 +74,8 @@ export default function EditProfile() {
     <>
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container>
-        <Grid item xs={6}>
-          <Typography variant="h2" marginTop="20px" marginX="40px">
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h2" margin="10px" color="#3B4950">
             EditProfile
           </Typography>
           <Grid
@@ -87,7 +87,7 @@ export default function EditProfile() {
             padding="10px"
           >
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="firstname">{'First name'}</InputLabel>
                 <OutlinedInput
                   id="firstname"
@@ -100,7 +100,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="lastname">{'Last name'}</InputLabel>
                 <OutlinedInput
                   id="lastname"
@@ -113,7 +113,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="email">{'Email'}</InputLabel>
                 <OutlinedInput
                   id="email"
@@ -126,7 +126,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="phone">{'Phone number'}</InputLabel>
                 <OutlinedInput
                   id="phone"
@@ -139,7 +139,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="address">{'Address'}</InputLabel>
                 <OutlinedInput
                   id="address"
@@ -152,7 +152,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel id="documentType-label">Document type</InputLabel>
                 <Select
                   labelId="documentType-label"
@@ -173,7 +173,7 @@ export default function EditProfile() {
               </FormControl>
             </Grid>
             <Grid item>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ paddingRight: 10 }}>
                 <InputLabel htmlFor="document">{'Document number'}</InputLabel>
                 <OutlinedInput
                   startAdornment={
@@ -199,7 +199,7 @@ export default function EditProfile() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={6} position="relative">
+        <Grid item xs={0} sm={6} position="relative">
           <Image src={adopt} alt="adopt" layout="fill" objectFit="cover" />
         </Grid>
       </Grid>
