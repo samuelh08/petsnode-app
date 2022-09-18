@@ -1,46 +1,20 @@
 import React from 'react';
+import Carousel from 'react-material-ui-carousel';
 import {
-  Box,
-  Button,
   Card,
   CardActionArea,
   CardContent,
   CardMedia,
   Grid,
-  Link,
-  MobileStepper,
-  Paper,
   Typography,
 } from '@mui/material';
 import HouseIcon from '@mui/icons-material/House';
 import PetsIcon from '@mui/icons-material/Pets';
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
 
 import banner from '../public/banner.jpg';
 import Image from 'next/image';
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-export default function Home({ data, meta }) {
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = data.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step) => {
-    setActiveStep(step);
-  };
-
+export default function Home({ data }) {
   return (
     <>
       <div
@@ -74,92 +48,51 @@ export default function Home({ data, meta }) {
         <Grid item>
           <Grid container flexDirection="column">
             <Grid item alignSelf="center">
-              <Typography variant="h3" marginTop={1} color="#3B4950">
+              <Typography variant="h3" marginY={1} color="#3B4950">
                 Featured Pets
               </Typography>
             </Grid>
             <Grid item alignSelf="center">
-              <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-                <Paper
-                  square
-                  elevation={0}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 50,
-                    pl: 2,
-                    bgcolor: '#fff0',
-                  }}
-                >
-                  <Typography variant="h5" marginRight={1}>
-                    {data[activeStep]?.name}
-                  </Typography>
-                  <Typography variant="body">
-                    • {data[activeStep]?.sex} • {data[activeStep]?.age} •
-                    {data[activeStep]?.size}
-                  </Typography>
-                </Paper>
-                <AutoPlaySwipeableViews
-                  axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                  index={activeStep}
-                  onChangeIndex={handleStepChange}
-                  enableMouseEvents
-                >
-                  {data.map((step, index) => (
-                    <div key={step._id}>
-                      {Math.abs(activeStep - index) <= 2 ? (
-                        <Link href={`/pets/${step._id}`}>
-                          <Box
-                            component="img"
-                            sx={{
-                              maxHeight: 400,
-                              display: 'block',
-                              maxWidth: 400,
-                              overflow: 'hidden',
-                              width: '100%',
-                            }}
-                            src={step.picture}
-                            alt={step.name}
-                          />
-                        </Link>
-                      ) : null}
-                    </div>
-                  ))}
-                </AutoPlaySwipeableViews>
-                <MobileStepper
-                  steps={maxSteps}
-                  position="static"
-                  activeStep={activeStep}
-                  nextButton={
-                    <Button
-                      size="small"
-                      onClick={handleNext}
-                      disabled={activeStep === maxSteps - 1}
-                    >
-                      Next
-                      {theme.direction === 'rtl' ? (
-                        <KeyboardArrowLeft />
-                      ) : (
-                        <KeyboardArrowRight />
-                      )}
-                    </Button>
-                  }
-                  backButton={
-                    <Button
-                      size="small"
-                      onClick={handleBack}
-                      disabled={activeStep === 0}
-                    >
-                      {theme.direction === 'rtl' ? (
-                        <KeyboardArrowRight />
-                      ) : (
-                        <KeyboardArrowLeft />
-                      )}
-                      Back
-                    </Button>
-                  }
-                />
-              </Box>
+              <Carousel
+                animation="slide"
+                sx={{ height: 450, width: 400, marginBottom: 4 }}
+              >
+                {data.map((item, i) => (
+                  <Card key={i} sx={{ height: 400, width: 400 }}>
+                    <CardActionArea href={`/pets/${item._id}`}>
+                      <CardMedia
+                        component="img"
+                        image={item.picture}
+                        alt={item.name}
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                        }}
+                      />
+                      <CardContent
+                        sx={{
+                          position: 'relative',
+
+                          backgroundColor: 'transparent',
+                        }}
+                      >
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="h2"
+                          color="white"
+                        >
+                          {item.name}
+                        </Typography>
+                        <Typography variant="body2" component="p" color="white">
+                          {item?.sex} • {item?.age} • {item?.size}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                ))}
+              </Carousel>
             </Grid>
           </Grid>
         </Grid>
