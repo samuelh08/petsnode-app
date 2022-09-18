@@ -49,7 +49,8 @@ export default function Home({ data, meta }) {
           height: '50vh',
           width: '100vw',
           overflow: 'hidden',
-          zIndex: -1,
+          zIndex: 0,
+          borderBottom: 'solid 8px #E4AD50',
         }}
       >
         <Image
@@ -62,18 +63,18 @@ export default function Home({ data, meta }) {
         <Typography
           variant="h2"
           position="absolute"
-          color="white"
+          color="#3B4950"
           margin={5}
-          style={{ WebkitTextStroke: '1px grey' }}
+          style={{ WebkitTextStroke: '2px #e2dfe0' }}
         >
-          Welcome to PetsNode
+          <strong>Welcome to PetsNode!</strong>
         </Typography>
       </div>
       <Grid container alignItems="center" justifyContent="space-around">
         <Grid item>
           <Grid container flexDirection="column">
             <Grid item alignSelf="center">
-              <Typography variant="h3" marginTop={1}>
+              <Typography variant="h3" marginTop={1} color="#3B4950">
                 Featured Pets
               </Typography>
             </Grid>
@@ -171,7 +172,12 @@ export default function Home({ data, meta }) {
             justifyContent="center"
           >
             <Grid item>
-              <Typography variant="h3" textAlign="center" justifySelf="center">
+              <Typography
+                variant="h3"
+                textAlign="center"
+                justifySelf="center"
+                color="#3B4950"
+              >
                 What do you want to do?
               </Typography>
             </Grid>
