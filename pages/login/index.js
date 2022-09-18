@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import PetsIcon from '@mui/icons-material/Pets';
+import Swal from 'sweetalert2';
 
 import { logIn } from '../../api/users';
 import UserContext from '../../context/user';
@@ -31,9 +32,21 @@ export default function Login() {
         password: password.value,
       });
       context.setUser(json.data);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Log in successful',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push('/');
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Log in failed',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }

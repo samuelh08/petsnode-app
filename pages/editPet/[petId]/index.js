@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import publish from '../../../public/publish.jpg';
 import { updatePet } from '../../../api/pets';
@@ -75,9 +76,21 @@ export default function EditPet({ data }) {
         trained: payload.trained.value,
         description: payload.description.value,
       });
+      Swal.fire({
+        title: 'Success!',
+        text: 'Pet was updated successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push(`/pets/${data._id}`);
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while updating the pet',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }

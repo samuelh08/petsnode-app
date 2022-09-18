@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import adopt from '../../public/adopt.jpg';
 import { signup } from '../../api/users';
@@ -44,9 +45,21 @@ export default function SignUp() {
         documentType: payload.documentType.value,
         document: payload.document.value,
       });
+      Swal.fire({
+        title: 'Success!',
+        text: 'User was created successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push('/login');
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while creating an user',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }

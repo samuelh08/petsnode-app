@@ -43,3 +43,15 @@ export function updateUser(id, payload) {
     };
   });
 }
+
+export function deleteUser(id) {
+  return http.delete(`/users/${id}`).then((response) => {
+    const { data: json } = response;
+
+    const user = json.data;
+
+    return {
+      data: user,
+    };
+  });
+}

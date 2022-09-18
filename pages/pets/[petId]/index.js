@@ -24,6 +24,7 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import UserContext from '../../../context/user';
 import { createApplication, getApplications } from '../../../api/applications';
@@ -58,8 +59,20 @@ export default function Pet({ data }) {
         `users/${user._id}/pets/${data._id}/applications`,
         { message: payload.message.value },
       );
+      Swal.fire({
+        title: 'Success!',
+        text: 'Application created successful',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while creating an application',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setOpen(false);
       setLoading(false);
@@ -77,9 +90,21 @@ export default function Pet({ data }) {
         { message: payload.message.value, answer: payload.answer.value },
       );
       mutate(`/pets/${data._id}/applications`);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Application created successful',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
     } catch (error) {
       console.log(error);
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while creating a reply',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setOpenReply(false);
       setLoading(false);
@@ -97,9 +122,20 @@ export default function Pet({ data }) {
         answer: payload.answer.value,
       });
       mutate(`/pets/${data._id}/applications`);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Reply edited successful',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
     } catch (error) {
-      console.log(error);
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while editing the reply',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setOpenEditReply(false);
       setLoading(false);
@@ -111,9 +147,21 @@ export default function Pet({ data }) {
     setLoading(true);
     try {
       await deletePet(data._id);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Pet deleted successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push('/pets');
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while deleting the pet',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }
@@ -185,7 +233,21 @@ export default function Pet({ data }) {
                       <LoadingButton
                         color="error"
                         loading={loading}
-                        onClick={handleDelete}
+                        onClick={() =>
+                          Swal.fire({
+                            title: 'Are you sure?',
+                            text: "Deleting a pet can't be reverted",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#1976d2',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Delete',
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              handleDelete();
+                            }
+                          })
+                        }
                       >
                         Delete
                       </LoadingButton>

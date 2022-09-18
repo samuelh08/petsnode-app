@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
+import { useRouter } from 'next/router';
 import {
   Alert,
   Box,
@@ -16,14 +17,17 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import UserContext from '../../context/user';
 import { getPets } from '../../api/pets';
 import { getApplications, deleteApplication } from '../../api/applications';
-import { LoadingButton } from '@mui/lab';
+import { deleteUser } from '../../api/users';
 
 export default function Profile() {
   const { mutate } = useSWRConfig();
+  const router = useRouter();
   const { user } = useContext(UserContext);
   const [pagePets, setPagePets] = useState(1);
   const [pageApplications, setPageApplications] = useState(1);
@@ -47,13 +51,49 @@ export default function Profile() {
     setPageApplications(value);
   };
 
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await deleteUser(user._id);
+      Swal.fire({
+        title: 'Success!',
+        text: 'User deleted successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
+      router.push('/logout');
+    } catch (error) {
+      setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while deleting the user',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDeleteApplication = async (id) => {
     setLoading(true);
     try {
       await deleteApplication(id);
       mutate(`/users/${user?._id}/applications?page=${pageApplications}`);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Application deleted successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while deleting the application',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }
@@ -102,7 +142,26 @@ export default function Profile() {
                   <Button href="/editProfile">Edit</Button>
                 </Grid>
                 <Grid item>
-                  <Button color="error">Delete</Button>
+                  <Button
+                    color="error"
+                    onClick={() =>
+                      Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'User will be lost forever if deleted',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#1976d2',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Delete',
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          handleDelete();
+                        }
+                      })
+                    }
+                  >
+                    Delete
+                  </Button>
                 </Grid>
               </Grid>
             </CardActions>
@@ -233,9 +292,21 @@ export default function Profile() {
                     <Grid item>
                       <LoadingButton
                         color="error"
-                        onClick={function () {
-                          handleDeleteApplication(item._id);
-                        }}
+                        onClick={() =>
+                          Swal.fire({
+                            title: 'Are you sure?',
+                            text: "Deleting an application can't be reverted",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#1976d2',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Delete',
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              handleDeleteApplication(item._id);
+                            }
+                          })
+                        }
                         loading={loading}
                       >
                         Delete

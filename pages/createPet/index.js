@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import publish from '../../public/publish.jpg';
 import { createPet } from '../../api/pets';
@@ -70,9 +71,21 @@ export default function CreatePet() {
       setLoading(true);
       setError(null);
       await createPet(`/users/${user?._id}/pets`, formData);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Pet was created successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push('/profile');
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while creating a pet',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }

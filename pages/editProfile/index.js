@@ -13,6 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Swal from 'sweetalert2';
 
 import UserContext from '../../context/user';
 import adopt from '../../public/adopt.jpg';
@@ -62,9 +63,21 @@ export default function EditProfile() {
         document: payload.document.value,
       });
       setUser(json.data);
+      Swal.fire({
+        title: 'Success!',
+        text: 'User was updated successfully',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
       router.push('/profile');
     } catch (error) {
       setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while updating the user',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setLoading(false);
     }
