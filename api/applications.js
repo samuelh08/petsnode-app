@@ -21,6 +21,16 @@ export async function getApplications(url = '/applications') {
   });
 }
 
+export async function updateApplication(id, payload) {
+  return await http.put(`/applications/${id}`, payload).then((response) => {
+    const { data: json } = response;
+
+    return {
+      data: json.data,
+    };
+  });
+}
+
 export async function deleteApplication(id) {
   return await http.delete(`applications/${id}`).then((response) => {
     const { data: json } = response;

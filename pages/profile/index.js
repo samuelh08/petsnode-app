@@ -12,7 +12,11 @@ import {
   CardMedia,
   Chip,
   CircularProgress,
+  FormControl,
   Grid,
+  InputLabel,
+  Modal,
+  OutlinedInput,
   Pagination,
   Stack,
   Typography,
@@ -22,7 +26,11 @@ import Swal from 'sweetalert2';
 
 import UserContext from '../../context/user';
 import { getPets } from '../../api/pets';
-import { getApplications, deleteApplication } from '../../api/applications';
+import {
+  getApplications,
+  deleteApplication,
+  updateApplication,
+} from '../../api/applications';
 import { deleteUser } from '../../api/users';
 
 export default function Profile() {
@@ -42,6 +50,12 @@ export default function Profile() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [applicationId, setApplicationId] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (setFunction) => setFunction(true);
+  const handleClose = (setFunction) => setFunction(false);
 
   const handleChangePagePets = (event, value) => {
     setPagePets(value);
@@ -71,6 +85,36 @@ export default function Profile() {
         confirmButtonText: 'Ok',
       });
     } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditApplication = async (event) => {
+    event.preventDefault();
+    setError(null);
+    const payload = event.target.elements;
+    setLoading(true);
+    try {
+      await updateApplication(applicationId, {
+        message: payload.message.value,
+      });
+      mutate(`/users/${user?._id}/applications?page=${pageApplications}`);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Application edited successful',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+      });
+    } catch (error) {
+      setError(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'An error occurred while editing the application',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+    } finally {
+      setOpen(false);
       setLoading(false);
     }
   };
@@ -240,82 +284,97 @@ export default function Profile() {
             {!applications && (
               <CircularProgress color="inherit" sx={{ margin: 5 }} />
             )}
-            {applications?.data.map((item) => (
-              <Card
-                key={item._id}
-                sx={{
-                  maxHeight: 200,
-                  marginX: 5,
-                  marginBottom: 5,
-                  display: 'flex',
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  image={item.petId.picture}
-                  alt={item.petId.name}
-                  sx={{ maxWidth: 200 }}
-                />
-                <CardContent sx={{ flex: '1 0 auto', width: 'min-content' }}>
-                  <Typography component="div" variant="h5">
-                    {item.petId.name}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    color="text.secondary"
-                    component="div"
+            <Grid container justifyContent="space-around">
+              {applications?.data.map((item) => (
+                <Grid item key={item._id}>
+                  <Card
+                    key={item._id}
+                    sx={{
+                      marginX: 5,
+                      marginBottom: 5,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      maxWidth: 200,
+                    }}
                   >
-                    {item.message}
-                  </Typography>
-                  <Stack direction="row" spacing={1}>
-                    <Typography component="div" variant="h5">
-                      Reply
-                    </Typography>
-                    <Chip
-                      label={item.reply[0]?.answer ?? 'Pending'}
-                      color={
-                        (item.reply[0]?.answer === 'Accepted' && 'success') ||
-                        (item.reply[0]?.answer === 'Denied' && 'error') ||
-                        'default'
-                      }
+                    <CardMedia
+                      component="img"
+                      image={item.petId.picture}
+                      alt={item.petId.name}
+                      sx={{ maxWidth: 200, maxHeight: 200 }}
                     />
-                  </Stack>
-                  <Typography variant="body">
-                    {item.reply[0]?.message}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Grid container flexDirection="column">
-                    <Grid item>
-                      <Button>Edit</Button>
-                    </Grid>
-                    <Grid item>
-                      <LoadingButton
-                        color="error"
-                        onClick={() =>
-                          Swal.fire({
-                            title: 'Are you sure?',
-                            text: "Deleting an application can't be reverted",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#1976d2',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Delete',
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              handleDeleteApplication(item._id);
-                            }
-                          })
-                        }
-                        loading={loading}
+                    <CardContent
+                      sx={{ flex: '1 0 auto', width: 'min-content' }}
+                    >
+                      <Typography component="div" variant="h5">
+                        {item.petId.name}
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        color="text.secondary"
+                        component="div"
                       >
-                        Delete
-                      </LoadingButton>
-                    </Grid>
-                  </Grid>
-                </CardActions>
-              </Card>
-            ))}
+                        {item.message}
+                      </Typography>
+                      <Stack direction="row" spacing={1}>
+                        <Typography component="div" variant="h5">
+                          Reply
+                        </Typography>
+                        <Chip
+                          label={item.reply[0]?.answer ?? 'Pending'}
+                          color={
+                            (item.reply[0]?.answer === 'Accepted' &&
+                              'success') ||
+                            (item.reply[0]?.answer === 'Denied' && 'error') ||
+                            'default'
+                          }
+                        />
+                      </Stack>
+                      <Typography variant="body">
+                        {item.reply[0]?.message}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Grid container justifyContent="space-evenly">
+                        <Grid item>
+                          <Button
+                            onClick={function () {
+                              setApplicationId(item._id);
+                              handleOpen(setOpen);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <LoadingButton
+                            color="error"
+                            onClick={() =>
+                              Swal.fire({
+                                title: 'Are you sure?',
+                                text: "Deleting an application can't be reverted",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#1976d2',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Delete',
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  handleDeleteApplication(item._id);
+                                }
+                              })
+                            }
+                            loading={loading}
+                          >
+                            Delete
+                          </LoadingButton>
+                        </Grid>
+                      </Grid>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
             {applications?.meta.pages > 1 && (
               <Pagination
                 count={applications.meta.pages}
@@ -324,12 +383,61 @@ export default function Profile() {
                 sx={{ alignSelf: 'center' }}
               />
             )}
-            <Button href="/pets" sx={{ marginY: 5, alignSelf: 'center' }}>
+            <Button href="/pets" sx={{ marginBottom: 5, alignSelf: 'center' }}>
               Adopt a pet
             </Button>
           </Grid>
         </Grid>
       </Grid>
+      <Modal
+        open={open}
+        onClose={function () {
+          setApplicationId('');
+          handleClose(setOpen);
+        }}
+        aria-labelledby="reply-modal-title"
+        aria-describedby="reply-modal-description"
+      >
+        <Box
+          component="form"
+          onSubmit={handleEditApplication}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="reply-modal-title" variant="h6" component="h2">
+            Edit Application
+          </Typography>
+          <Typography id="reply-modal-description" sx={{ mt: 2 }}>
+            Edit the message of your application
+          </Typography>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="message">Message</InputLabel>
+            <OutlinedInput
+              id="message"
+              label="message"
+              multiline={true}
+              rows={3}
+            />
+          </FormControl>
+          <LoadingButton
+            variant="contained"
+            type="submit"
+            loading={loading}
+            sx={{ mt: 2 }}
+          >
+            Edit
+          </LoadingButton>
+        </Box>
+      </Modal>
     </>
   );
 }
