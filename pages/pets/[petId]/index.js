@@ -172,10 +172,10 @@ export default function Pet({ data }) {
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container flexDirection="column">
         <Grid item>
-          <Card sx={{ display: 'flex', margin: 5 }}>
+          <Card sx={{ display: 'flex', margin: 5, flexWrap: 'wrap' }}>
             <CardMedia
               component="img"
-              sx={{ width: 500 }}
+              sx={{ maxWidth: 500 }}
               image={data.picture}
               alt={data.name}
             />
