@@ -260,7 +260,9 @@ export default function Pet({ data }) {
         </Grid>
         {data.userId._id === user?._id && (
           <Grid item marginX={5}>
-            <Typography variant="h3">Applications</Typography>
+            <Typography variant="h3" color="#3B4950">
+              Applications
+            </Typography>
           </Grid>
         )}
         {!applications ? (

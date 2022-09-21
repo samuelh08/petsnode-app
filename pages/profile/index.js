@@ -212,7 +212,13 @@ export default function Profile() {
           </Card>
         </Grid>
         <Grid item display="flex" flexDirection="column">
-          <Typography variant="h3" marginTop={5} marginX={5} align="center">
+          <Typography
+            variant="h3"
+            marginTop={5}
+            marginX={5}
+            align="center"
+            color="#3B4950"
+          >
             My pets for adoption
           </Typography>
           {pets?.meta.total === 0 && (
@@ -266,7 +272,13 @@ export default function Profile() {
           <Button href="/createPet" sx={{ marginTop: 5, alignSelf: 'center' }}>
             Rehome a pet
           </Button>
-          <Typography variant="h3" marginY={5} marginX={5} align="center">
+          <Typography
+            variant="h3"
+            marginY={5}
+            marginX={5}
+            align="center"
+            color="#3B4950"
+          >
             My applications
           </Typography>
           <Grid container flexDirection="column">
