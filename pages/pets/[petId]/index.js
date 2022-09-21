@@ -172,7 +172,13 @@ export default function Pet({ data }) {
       {error && <Alert severity="error">{error}</Alert>}
       <Grid container flexDirection="column">
         <Grid item>
-          <Card sx={{ display: 'flex', margin: 5, flexWrap: 'wrap' }}>
+          <Card
+            sx={{
+              display: 'flex',
+              margin: 5,
+              flexWrap: { xs: 'wrap', sm: 'nowrap' },
+            }}
+          >
             <CardMedia
               component="img"
               sx={{ maxWidth: 500 }}
@@ -287,7 +293,18 @@ export default function Pet({ data }) {
                 >
                   <CardContent>
                     <Typography variant="h5">{item.userId.name}</Typography>
-                    <Typography variant="body">{item.message}</Typography>
+                    <Typography variant="body2">
+                      Email: {item.userId.email}
+                    </Typography>
+                    <Typography variant="body2">
+                      Phone: {item.userId.phone}
+                    </Typography>
+                    <Typography variant="body2">
+                      Address: {item.userId.address}
+                    </Typography>
+                    <Typography variant="body1">
+                      Message: {item.message}
+                    </Typography>
                     <Stack direction="row" spacing={1}>
                       <Typography variant="h5">Reply</Typography>
                       <Chip
@@ -372,6 +389,7 @@ export default function Pet({ data }) {
               label="message"
               multiline={true}
               rows={3}
+              inputProps={{ maxLength: 280 }}
             />
           </FormControl>
           <LoadingButton
@@ -461,6 +479,7 @@ export default function Pet({ data }) {
               label="message"
               multiline={true}
               rows={3}
+              inputProps={{ maxLength: 280 }}
             />
           </FormControl>
           <LoadingButton
@@ -521,6 +540,7 @@ export default function Pet({ data }) {
               label="message"
               multiline={true}
               rows={3}
+              inputProps={{ maxLength: 280 }}
             />
           </FormControl>
           <LoadingButton
